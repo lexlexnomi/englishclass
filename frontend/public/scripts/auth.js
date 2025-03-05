@@ -15,7 +15,7 @@ if (loginForm) {
             });
     
             // Log da resposta
-            console.log(await response.json());
+            console.log(await response.text());
             
             // Verifica se a resposta foi bem-sucedida
             if (response.ok) {
