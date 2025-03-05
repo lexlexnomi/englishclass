@@ -13,9 +13,6 @@ if (loginForm) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password }),
             });
-    
-            // Log da resposta
-            console.log(await response.text());
             
             // Verifica se a resposta foi bem-sucedida
             if (response.ok) {
