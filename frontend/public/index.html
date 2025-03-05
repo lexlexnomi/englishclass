@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English with teacher Carol</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2><div class="emoji"><img src="./images/emojis/1F1FA-1F1F8.svg"></div> English with teacher Carol</h2>
+        <ul>
+            <li><a href="index.html"><div class="emoji"><img src="./images/emojis/E25E.svg"></div>Dashboard</a></li>
+            <li><a href="activities.html"><div class="emoji"><img src="./images/emojis/1F4DC.svg"></div>Activities</a></li>
+            <li><a href="texts.html"><div class="emoji"><img src="./images/emojis/1F4D2.svg"></div>Texts</a></li>
+            <li><a href="vocabularies.html"><div class="emoji"><img src="./images/emojis/1F5E3.svg"></div>Vocabulary</a></li>
+            <li><a href="questions.html"><div class="emoji"><img src="./images/emojis/2753.svg"></div>Teacher Questions</a></li>
+            <li><a href="resources.html"><div class="emoji"><img src="./images/emojis/E261.svg"></div>Resources</a></li>
+        </ul>
+        <div class="user-info">
+            <img id="user-avatar" src="">
+            <div class="user-name-btn">
+                <span id="user-name"></span>
+                <button id="logout-btn">Sair</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+        <div class="img-bg-content"><img src="./images/bgs/dashboard.png"></div>
+        <section id="initial">
+            <h1><div class="emoji-tit"><img src="./images/emojis/E25E.svg"></div>Dashboard</h1>
+            <p>Goals, progress, weekly activities, studied texts, vocabulary, and questions.</p>
+        <!-- Seletor de Semana -->
+            <div class="seletor-aula">
+                <select id="aula">
+                    <!-- As opções serão preenchidas dinamicamente -->
+                </select>
+            </div>
+        </section>
+
+        <!-- Resumo Semanal -->
+        <div class="grid-container">
+            <div class="row">
+                <section id="activities">
+                    <h3><div class="emoji-sub"><img src="./images/emojis/1F4DC.svg"></div>Activities</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Título</th>
+                                <th>Aula</th>
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-atividades">
+                            <!-- As atividades serão inseridas aqui -->
+                        </tbody>
+                    </table>
+                </section>
+                <section id="questions">
+                    <h3><div class="emoji-sub"><img src="./images/emojis/2753.svg"></div>Teacher Questions</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Título</th>
+                                <th>Aula</th>
+                                <th>Tag</th>
+                                <th>Descrição</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-duvidas">
+                            <!-- As atividades serão inseridas aqui -->
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+            <div class="row">
+                <section id="texts">
+                    <h3><div class="emoji-sub"><img src="./images/emojis/1F4D2.svg"></div>Texts</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Aula</th>
+                                <th>Tema</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-textos">
+                            <!-- As atividades serão inseridas aqui -->
+                        </tbody>
+                    </table>
+                </section>
+                <section id="vocabulary">
+                    <h3><div class="emoji-sub"><img src="./images/emojis/1F5E3.svg"></div>Vocabulary</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Palavra</th>
+                                <th>Aula</th>
+                                <th>Tema</th>
+                                <th>Significado</th>
+                                <th>Frase</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-vocabularios">
+                            <!-- As atividades serão inseridas aqui -->
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div id="modal-texto" class="modal">
+        <div class="modal-conteudo">
+            <span class="fechar-modal">&times;</span>
+            <h2 id="modal-titulo"></h2>
+            <p id="modal-conteudo"></p>
+        </div>
+    </div>
+    <script src="/scripts/auth.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="/scripts/scripts.js"></script>
+</body>
+</html>
