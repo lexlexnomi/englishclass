@@ -29,8 +29,9 @@ if (loginForm) {
                 window.location.href = '/index.html';
             } else {
                 // Exibe mensagem de erro caso falhe
-                const errorData = await response.json();
-                alert(errorData.message || 'Erro no login. Tente novamente.');
+                const errorData = await response.text();
+                const parsedError = errorData ? JSON.parse(errorData) : { message: 'Erro no login. Tente novamente.' };
+                alert(parsedError.message);
             }
         } catch (error) {
             // Caso aconteça algum erro na requisição (como problemas de rede)
