@@ -1,13 +1,19 @@
 // Função para fazer requisições ao backend
-async function fetchData(url, method = 'GET', data = null) {
+const API_BASE_URL = 'https://english-backend-tsax.onrender.com';
+
+async function fetchData(endpoint, method = 'GET', data = null) {
+    const url = `${API_BASE_URL}${endpoint}`; // Agora sempre usa a URL do backend
     console.log(`Fetching data from ${url}`); // Log de depuração
+
     const options = {
         method,
         headers: { 'Content-Type': 'application/json' },
     };
+
     if (data) {
         options.body = JSON.stringify(data);
     }
+    
     try {
         const response = await fetch(url, options);
         if (!response.ok) {
