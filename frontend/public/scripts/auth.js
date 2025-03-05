@@ -13,13 +13,20 @@ if (loginForm) {
             body: JSON.stringify({ username, password }),
         });
 
+        // Verifica se a resposta foi bem-sucedida
         if (response.ok) {
             const data = await response.json();
+
+            // Armazena o token e dados do usuário no localStorage
             localStorage.setItem('token', data.token);
             localStorage.setItem('user', JSON.stringify(data.user));
+
+            // Redireciona para a página principal ou outra página protegida
             window.location.href = '/index.html';
         } else {
-            alert('Usuário ou senha incorretos.');
+            // Exibe mensagem de erro caso falhe
+            const errorData = await response.json();
+            alert(errorData.message || 'Erro no login. Tente novamente.');
         }
     });
 }
