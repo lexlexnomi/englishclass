@@ -209,10 +209,27 @@ function configurarFormVocabulario() {
 
             // Captura o tema selecionado ou o novo tema
             const tema = $('#temas-vocabulario').val();
+            console.log('Tema capturado:', tema);
 
             const fraseExemplo = document.getElementById('frase-exemplo').value;
 
-            await fetchData('/api/vocabularios', 'POST', { numero_aula: numeroAula, palavra, significado, tema, frase_exemplo: fraseExemplo });
+            // Buscar todas as aulas primeiro
+            const aulas = await fetchData('/api/aulas');
+            const aulaId = encontrarIdDaAula(aulas, numeroAula);
+
+            if (!aulaId) {
+                console.error('Erro: Não foi possível encontrar a aula correspondente.');
+                return;
+            }
+
+            await fetchData('/api/vocabularios', 'POST', {  
+                aula_id: aulaId, // Agora enviando o ID correto
+                palavra,
+                significado,
+                tema, 
+                frase_exemplo: fraseExemplo
+            });
+
             carregarVocabularios();
         });
     }
@@ -253,10 +270,26 @@ function configurarFormDuvida() {
 
             // Captura a tag selecionada ou a nova tag
             const tag = $('#tags').val();
+            console.log('Tag capturada:', tag);
 
             const descricao = document.getElementById('descricao-duvida').value;
 
-            await fetchData('/api/duvidas', 'POST', { titulo, numero_aula: numeroAula, tag, descricao });
+            // Buscar todas as aulas primeiro
+            const aulas = await fetchData('/api/aulas');
+            const aulaId = encontrarIdDaAula(aulas, numeroAula);
+
+            if (!aulaId) {
+                console.error('Erro: Não foi possível encontrar a aula correspondente.');
+                return;
+            }
+
+            await fetchData('/api/duvidas', 'POST', { 
+                titulo, 
+                aula_id: aulaId, // Agora enviando o ID correto
+                tag, 
+                descricao 
+            });
+
             carregarDuvidas();
         });
     }
