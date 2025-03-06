@@ -116,6 +116,7 @@ function configurarFormTexto() {
 
             // Captura o tema selecionado ou o novo tema
             const tema = $('#temas-textos').val();
+            console.log('Tema capturado:', tema);
 
             const conteudo = document.getElementById('conteudo-texto').value;
 
