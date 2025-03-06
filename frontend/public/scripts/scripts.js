@@ -119,7 +119,22 @@ function configurarFormTexto() {
 
             const conteudo = document.getElementById('conteudo-texto').value;
 
-            await fetchData('/api/textos', 'POST', { titulo, numero_aula: numeroAula, tema, conteudo });
+            // Buscar todas as aulas primeiro
+            const aulas = await fetchData('/api/aulas');
+            const aulaId = encontrarIdDaAula(aulas, numeroAula);
+
+            if (!aulaId) {
+                console.error('Erro: Não foi possível encontrar a aula correspondente.');
+                return;
+            }
+
+            await fetchData('/api/textos', 'POST', { 
+                titulo, 
+                aula_id: aulaId, // Agora enviando o ID correto
+                tema, 
+                conteudo 
+            });
+            
             carregarTextos();
         });
     }
