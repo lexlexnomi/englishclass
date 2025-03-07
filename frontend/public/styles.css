@@ -445,12 +445,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     cursor: pointer;
   }
 
-.titulo-texto {
+.titulo-texto, .titulo-duvida {
     position: relative;
     cursor: pointer;
 }
 
-.abrir-texto {
+.abrir-texto, .abrir-duvida {
     display: none;
     position: absolute;
     right: 10px;
@@ -463,11 +463,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: var(--color-navbg);
 }
 
-.abrir-texto:hover{
+.abrir-texto:hover, .abrir-duvida:hover{
     background-color: var(--color-textactive);
 }
 
-.titulo-texto:hover .abrir-texto {
+.titulo-texto:hover .abrir-texto, .titulo-duvida:hover .abrir-duvida {
     display: inline-block;
 }
 
