@@ -356,7 +356,9 @@ const data = {
 
 // Exibindo as categorias no frontend
 const categoriasElement = document.getElementById('categorias');
-categoriasElement.innerHTML = data.categorias.join(', '); // Exibe as categorias separadas por vírgula
+if (categoriasElement) {
+    categoriasElement.innerHTML = data.categorias.join(', ');
+}
 
 // Função para carregar aulas
 async function carregarAulas() {
