@@ -140,15 +140,17 @@ function configurarFormTexto() {
     }
 }
 
-//Função para abrir o modal de texto
+//Função para abrir o modal
 async function abrirModal(tipo, id) {
     try {
         // Busca o texto pelo ID na API
         let dados;
         if (tipo === "texto") {
             dados = await fetchData(`/api/textos/${id}`);
+            console.log('Texto retornado:', dados); // LOG PARA DEBUG
         } else if (tipo === "duvida") {
             dados = await fetchData(`/api/duvidas/${id}`);
+            console.log('Duvida retornada:', dados); // LOG PARA DEBUG
         } else {
             console.error("Tipo inválido.");
             return;
@@ -268,7 +270,10 @@ async function carregarDuvidas() {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td><input type="checkbox" ${duvida.resolvida ? 'checked' : ''} onchange="marcarResolvida(${duvida.id}, event)"></td>
-                <td>${duvida.titulo}</td>
+                <td class="titulo-duvida">
+                    ${duvida.titulo}
+                    <span class="abrir-duvida">Clique para abrir</span>
+                </td>
                 <td>Aula ${duvida.numero_aula}</td>
                 <td>${duvida.tag}</td>
                 <td>${duvida.descricao}</td>
@@ -530,7 +535,10 @@ async function carregarDashboard() {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td><input type="checkbox" ${duvida.resolvida ? 'checked' : ''} onchange="marcarResolvida(${duvida.id}, event)"></td>
-                <td>${duvida.titulo}</td>
+                <td class="titulo-duvida">
+                    ${duvida.titulo}
+                    <span class="abrir-duvida">Clique para abrir</span>
+                </td>
                 <td>Aula ${duvida.numero_aula}</td>
                 <td>${duvida.tag}</td>
                 <td>${duvida.descricao}</td>
