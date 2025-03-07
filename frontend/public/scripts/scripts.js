@@ -161,8 +161,8 @@ async function abrirModal(tipo, id) {
         const modalTitulo = document.getElementById('modal-titulo');
         const modalContent = document.getElementById('modal-content');
 
-        modalTitulo.textContent = texto.titulo || "Sem título";
-        modalContent.textContent = texto.conteudo || "Sem conteúdo";
+        modalTitulo.textContent = dados.titulo || "Sem título";
+        modalContent.textContent = dados.conteudo || "Sem conteúdo";
         modal.style.display = 'block';
     } catch (error) {
         console.error(`Erro ao buscar ${tipo}:`, error);
@@ -245,7 +245,7 @@ async function carregarTemas() {
         temasElement.append(new Option('Selecione um tema', '')); // Adiciona a opção inicial
 
         temas.forEach(tema => {
-            const option = new Option(tema.nome, tema.id, false, false);
+            const option = new Option(tema.nome, tema.id);
             temasElement.append(option);
         });
 
@@ -417,7 +417,7 @@ async function carregarCategorias() {
         });
 
         // Re-inicializa o select2 com as novas opções
-        selectCategorias.trigger('change');
+        categoriasElement.trigger('change');
     }
 }
 
