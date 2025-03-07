@@ -308,6 +308,8 @@ async function marcarResolvida(id, event) {
 // Função para carregar recursos
 async function carregarRecursos() {
     const recursos = await fetchData('/api/recursos');
+    console.log('recursos retornados:', recursos); // Log de depuração
+
     const tbody = document.getElementById('lista-recursos');
     if (tbody) {
         tbody.innerHTML = '';
@@ -316,7 +318,7 @@ async function carregarRecursos() {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${recurso.nome}</td>
-                <td>(${recurso.categoria})</td>
+                <td>(${recurso.categorias.join(', ')})</td>
                 <td>${recurso.descricao}</td>
                 <td><a href="${recurso.url}" target="_blank">Acessar</a></td>
             `;
@@ -346,18 +348,23 @@ function configurarFormRecurso() {
     }
 }
 
-// Suponha que a resposta da API seja armazenada na variável 'data'
-const data = {
-    nome: 'ChatGPT',
-    categorias: ['AI', 'Grammar', 'Texts'],
-    url: 'https://chatgpt.com/',
-    descricao: 'IA que auxilia em diversas situações durante o aprendizado.'
-};
+// Função para preencher as opções do Select2 com categorias
+async function carregarCategorias() {
+    const categorias = await fetchData('/api/categorias');
 
-// Exibindo as categorias no frontend
-const categoriasElement = document.getElementById('categorias');
-if (categoriasElement) {
-    categoriasElement.innerHTML = data.categorias.join(', ');
+    const categoriasElement = document.getElementById('categorias');
+    if (categoriasElement) {
+        // Limpando as opções existentes
+        categoriasElement.innerHTML = '';
+        
+        // Adicionando as categorias ao select2
+        categorias.forEach(categoria => {
+            const option = document.createElement('option');
+            option.value = categoria;
+            option.textContent = categoria;
+            categoriasElement.appendChild(option);
+        });
+    }
 }
 
 // Função para carregar aulas
@@ -508,6 +515,7 @@ document.addEventListener('DOMContentLoaded', () => {
         configurarFormDuvida();
         carregarDuvidas();
     } else if (window.location.pathname.endsWith('resources.html')) {
+        carregarCategorias();
         configurarFormRecurso();
         carregarRecursos();
     } else if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
