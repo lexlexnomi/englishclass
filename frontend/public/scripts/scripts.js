@@ -239,19 +239,18 @@ async function carregarTemas() {
 
         const temasElement = $('#temas'); // ID do seletor de temas no HTML
 
-        if (temasElement) {
-            // Limpando as opções existentes
-            temasElement.empty();
-            
-            // Adiciona as opções de temas no seletor
-            temas.forEach(tema => {
-                const option = new Option(tema.nome, tema.id);
-                temasElement.append(option);
-            });
+        if (!temasElement.length) return;
 
-            // Re-inicializa o select2 com as novas opções
-            temasElement.trigger('change');
-        }
+        temasElement.empty(); // Limpar o seletor
+        temasElement.append(new Option('Selecione um tema', '')); // Adiciona a opção inicial
+
+        temas.forEach(tema => {
+            const option = new Option(tema.nome, tema.id, false, false);
+            temasElement.append(option);
+        });
+
+        temasElement.trigger('change'); // Atualiza o select2
+        
     } catch (error) {
         console.error('Erro ao carregar os temas:', error); // Log de erro
     }
