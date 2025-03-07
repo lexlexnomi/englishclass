@@ -237,19 +237,32 @@ async function carregarTemas() {
         const temas = await fetchData('/api/temas'); // API de temas
         console.log('Temas retornados:', temas); // Log de depuração
 
-        const temasElement = $('#temas'); // ID do seletor de temas no HTML
+        // Seletor de temas para textos
+        const temasTextosElement = $('#temas-textos');
+        // Seletor de temas para vocabulários
+        const temasVocabulariosElement = $('#temas-vocabulários');
 
-        if (!temasElement.length) return;
+        // Verifica se os elementos existem no HTML
+        if (!temasTextosElement.length || !temasVocabulariosElement.length) return;
 
-        temasElement.empty(); // Limpar o seletor
-        temasElement.append(new Option('Selecione um tema', '')); // Adiciona a opção inicial
+        // Limpar os seletores antes de adicionar as novas opções
+        temasTextosElement.empty();
+        temasVocabulariosElement.empty();
 
+        // Adiciona a opção inicial
+        temasTextosElement.append(new Option('Selecione um tema para textos', ''));
+        temasVocabulariosElement.append(new Option('Selecione um tema para vocabulários', ''));
+
+        // Preencher os dois selects com as opções de temas
         temas.forEach(tema => {
             const option = new Option(tema.nome, tema.id);
-            temasElement.append(option);
+            temasTextosElement.append(option);
+            temasVocabulariosElement.append(option);
         });
 
-        temasElement.trigger('change'); // Atualiza o select2
+        // Atualiza o select2 nos dois campos
+        temasTextosElement.trigger('change');
+        temasVocabulariosElement.trigger('change');
         
     } catch (error) {
         console.error('Erro ao carregar os temas:', error); // Log de erro
