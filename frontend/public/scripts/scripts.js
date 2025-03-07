@@ -338,11 +338,13 @@ function configurarFormRecurso() {
             
             // Captura a categoria selecionada ou a nova categoria
             const categorias = $('#categorias').val();
+            console.log('Categorias capturadas:', categorias);
 
             const url = document.getElementById('url-recurso').value;
             const descricao = document.getElementById('descricao-recurso').value;
 
             await fetchData('/api/recursos', 'POST', { nome, categorias, url, descricao });
+            
             carregarRecursos();
         });
     }
@@ -351,19 +353,22 @@ function configurarFormRecurso() {
 // Função para preencher as opções do Select2 com categorias
 async function carregarCategorias() {
     const categorias = await fetchData('/api/recursos/categorias');
+    console.log('Categorias retornadas:', categorias); // Log de depuração
 
-    const categoriasElement = document.getElementById('categorias');
+    const categoriasElement = $('#categorias');
+
     if (categoriasElement) {
         // Limpando as opções existentes
-        categoriasElement.innerHTML = '';
+        categoriasElement.empty();
         
-        // Adicionando as categorias ao select2
+        // Adiciona as opções de categorias no seletor
         categorias.forEach(categoria => {
-            const option = document.createElement('option');
-            option.value = categoria;
-            option.textContent = categoria;
-            categoriasElement.appendChild(option);
+            const option = new Option(categoria.nome, categoria.id);
+            categoriasElement.append(option);
         });
+
+        // Re-inicializa o select2 com as novas opções
+        selectCategorias.trigger('change');
     }
 }
 
