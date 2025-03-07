@@ -556,7 +556,7 @@ a {
     background-color: var(--color-modalbg); /* Fundo escuro */
 }
 
-.modal-conteudo {
+.modal-content {
     background-color: var(--color-navbg);
     margin: 10% auto;
     padding: 20px;
