@@ -261,8 +261,12 @@ async function carregarTemas() {
         });
 
         // Atualiza o select2 nos dois campos
-        temasTextosElement.trigger('change');
-        temasVocabulariosElement.trigger('change');
+        temasTextosElement.select2();
+        temasVocabulariosElement.select2();
+
+        // Verifique as opções inseridas
+        console.log(temasTextosElement.html());
+        console.log(temasVocabulariosElement.html());
         
     } catch (error) {
         console.error('Erro ao carregar os temas:', error); // Log de erro
