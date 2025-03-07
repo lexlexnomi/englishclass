@@ -97,9 +97,8 @@ async function carregarTextos() {
             `;
             tbody.appendChild(row);
             
-            // Adiciona o evento de clique para abrir o modal
-            const titulo = row.querySelector('.titulo-texto');
-            titulo.addEventListener('click', () => abrirTexto(texto.id));
+            // Abre o modal com o conteúdo do texto
+            row.querySelector('.titulo-texto').addEventListener('click', () => abrirModal("texto", texto.id));
         });
     }
 }
@@ -142,34 +141,29 @@ function configurarFormTexto() {
 }
 
 //Função para abrir o modal de texto
-async function abrirTexto(id) {
-        try {
-            // Busca o texto pelo ID na API
-            const texto = await fetchData(`/api/textos/${id}`);
+async function abrirModal(tipo, id) {
+    try {
+        // Busca o texto pelo ID na API
+        let dados;
+        if (tipo === "texto") {
+            dados = await fetchData(`/api/textos/${id}`);
+        } else if (tipo === "duvida") {
+            dados = await fetchData(`/api/duvidas/${id}`);
+        } else {
+            console.error("Tipo inválido.");
+            return;
+        }
 
-            // Exibe o modal
-            const modal = document.getElementById('modal-texto');
-            const modalTitulo = document.getElementById('modal-titulo');
-            const modalConteudo = document.getElementById('modal-conteudo');
+        // Exibe o modal
+        const modal = document.getElementById('modal');
+        const modalTitulo = document.getElementById('modal-titulo');
+        const modalContent = document.getElementById('modal-content');
 
-            modalTitulo.textContent = texto.titulo;
-            modalConteudo.textContent = texto.conteudo;
-            modal.style.display = 'block';
-
-            // Fecha o modal ao clicar no "X"
-            document.querySelector('.fechar-modal').addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
-
-            // Fecha o modal ao clicar fora dele
-            window.addEventListener('click', (event) => {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-    }
-        catch (error) {
-            console.error('Erro ao buscar texto:', error); // Log de erro
+        modalTitulo.textContent = texto.titulo || "Sem título";
+        modalContent.textContent = texto.conteudo || "Sem conteúdo";
+        modal.style.display = 'block';
+    } catch (error) {
+        console.error(`Erro ao buscar ${tipo}:`, error);
     }
 }
 
@@ -235,6 +229,32 @@ function configurarFormVocabulario() {
     }
 }
 
+// Função para preencher as opções do Select2 com temas
+async function carregarTemas() {
+    try {
+        const temas = await fetchData('/api/temas'); // API de temas
+        console.log('Temas retornados:', temas); // Log de depuração
+
+        const temasElement = $('#temas'); // ID do seletor de temas no HTML
+
+        if (temasElement) {
+            // Limpando as opções existentes
+            temasElement.empty();
+            
+            // Adiciona as opções de temas no seletor
+            temas.forEach(tema => {
+                const option = new Option(tema.nome, tema.id);
+                temasElement.append(option);
+            });
+
+            // Re-inicializa o select2 com as novas opções
+            temasElement.trigger('change');
+        }
+    } catch (error) {
+        console.error('Erro ao carregar os temas:', error); // Log de erro
+    }
+}
+
 // Função para carregar dúvidas
 async function carregarDuvidas() {
     const duvidas = await fetchData('/api/duvidas');
@@ -254,6 +274,9 @@ async function carregarDuvidas() {
                 <td>${duvida.descricao}</td>
             `;
             tbody.appendChild(row);
+
+            // Abre o modal com o conteúdo da dúvida
+            row.querySelector('.titulo-duvida').addEventListener('click', () => abrirModal("duvida", duvida.id));
         });
     }
 }
@@ -269,8 +292,8 @@ function configurarFormDuvida() {
             const numeroAula = document.getElementById('numero-aula').value;
 
             // Captura a tag selecionada ou a nova tag
-            const tag = $('#tags').val();
-            console.log('Tag capturada:', tag);
+            const tags = $('#tags').val();
+            console.log('Tag capturada:', tags);
 
             const descricao = document.getElementById('descricao-duvida').value;
 
@@ -286,12 +309,34 @@ function configurarFormDuvida() {
             await fetchData('/api/duvidas', 'POST', { 
                 titulo, 
                 aula_id: aulaId, // Agora enviando o ID correto
-                tag, 
+                tags, 
                 descricao 
             });
 
             carregarDuvidas();
         });
+    }
+}
+
+// Função para preencher as opções do Select2 com tags
+async function carregarTags() {
+    const tags = await fetchData('/api/duvidas/tags');
+    console.log('Tags retornadas:', tags); // Log de depuração
+
+    const tagsElement = $('#tags');
+
+    if (tagsElement) {
+        // Limpando as opções existentes
+        tagsElement.empty();
+        
+        // Adiciona as opções de categorias no seletor
+        tags.forEach(tag => {
+            const option = new Option(tag.nome, tag.id);
+            tagsElement.append(option);
+        });
+
+        // Re-inicializa o select2 com as novas opções
+        tagsElement.trigger('change');
     }
 }
 
@@ -344,7 +389,7 @@ function configurarFormRecurso() {
             const descricao = document.getElementById('descricao-recurso').value;
 
             await fetchData('/api/recursos', 'POST', { nome, categorias, url, descricao });
-            
+
             carregarRecursos();
         });
     }
@@ -447,9 +492,8 @@ async function carregarDashboard() {
             `;
             tbodyTextos.appendChild(row);
 
-            // Adiciona o evento de clique para abrir o modal
-            const titulo = row.querySelector('.titulo-texto');
-            titulo.addEventListener('click', () => abrirTexto(texto.id));
+            // Abre o modal com o conteúdo do texto
+            row.querySelector('.titulo-texto').addEventListener('click', () => abrirModal("texto", texto.id));
         });
     }
 
@@ -492,6 +536,9 @@ async function carregarDashboard() {
                 <td>${duvida.descricao}</td>
             `;
             tbodyDuvidas.appendChild(row);
+
+            // Abre o modal com o conteúdo da dúvida
+            row.querySelector('.titulo-duvida').addEventListener('click', () => abrirModal("duvida", duvida.id));
         });
     }
 
@@ -509,14 +556,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.location.pathname.endsWith('activities.html')) {
         configurarFormAtividade();
         carregarAtividades();
-        console.log('atividade carregada.');
     } else if (window.location.pathname.endsWith('texts.html')) {
+        carregarTemas();
         configurarFormTexto();
         carregarTextos();
     } else if (window.location.pathname.endsWith('vocabularies.html')) {
+        carregarTemas();
         configurarFormVocabulario();
         carregarVocabularios();
     } else if (window.location.pathname.endsWith('questions.html')) {
+        carregarTags();
         configurarFormDuvida();
         carregarDuvidas();
     } else if (window.location.pathname.endsWith('resources.html')) {
@@ -531,7 +580,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Inicializa o Select2 para os seletores
     $('#tags').select2({
-        placeholder: "Selecione ou adicione tags",
+        placeholder: "Selecione uma tag",
         tags: true, // Habilita a criação de novas opções
         allowClear: true // Permite limpar a seleção
     });
@@ -553,5 +602,22 @@ document.addEventListener('DOMContentLoaded', () => {
         tags: true,
         maximumSelectionLength: 3, // Limita a seleção a 3 itens
         allowClear: true
+    });
+
+    //Fechar o modal
+    const modal = document.getElementById("modal");
+    const modalContent = document.querySelector(".modal-content");
+    const fecharModalBtn = document.querySelector(".fechar-modal");
+    
+    // Fecha o modal ao clicar no botão de fechar (X)
+    fecharModalBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    // Fecha o modal ao clicar fora dele
+    window.addEventListener('click', (event) => {
+        if (modal && modalContent && !modalContent.contains(event.target)) {
+            modal.style.display = 'none';
+        }
     });
 });
