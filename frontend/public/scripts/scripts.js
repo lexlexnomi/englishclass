@@ -346,6 +346,18 @@ function configurarFormRecurso() {
     }
 }
 
+// Suponha que a resposta da API seja armazenada na variável 'data'
+const data = {
+    nome: 'ChatGPT',
+    categorias: ['AI', 'Grammar', 'Texts'],
+    url: 'https://chatgpt.com/',
+    descricao: 'IA que auxilia em diversas situações durante o aprendizado.'
+};
+
+// Exibindo as categorias no frontend
+const categoriasElement = document.getElementById('categorias');
+categoriasElement.innerHTML = data.categorias.join(', '); // Exibe as categorias separadas por vírgula
+
 // Função para carregar aulas
 async function carregarAulas() {
     console.log('Função carregarAulas chamada.');
