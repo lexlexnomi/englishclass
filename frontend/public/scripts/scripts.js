@@ -204,7 +204,7 @@ function configurarFormVocabulario() {
             const significado = document.getElementById('significado').value;
 
             // Captura o tema selecionado ou o novo tema
-            const tema = $('#temas-vocabulario').val();
+            const tema = $('#temas-vocabularios').val();
             console.log('Tema capturado:', tema);
 
             const fraseExemplo = document.getElementById('frase-exemplo').value;
@@ -240,7 +240,7 @@ async function carregarTemas() {
         // Seletor de temas para textos
         const temasTextosElement = $('#temas-textos');
         // Seletor de temas para vocabulários
-        const temasVocabulariosElement = $('#temas-vocabulários');
+        const temasVocabulariosElement = $('#temas-vocabularios');
 
         // Verifica se os elementos existem no HTML
         if (!temasTextosElement.length || !temasVocabulariosElement.length) return;
