@@ -318,7 +318,7 @@ async function carregarRecursos() {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${recurso.nome}</td>
-                <td>(${recurso.categorias.join(', ')})</td>
+                <td>${recurso.categorias.join(' ')}</td>
                 <td>${recurso.descricao}</td>
                 <td><a href="${recurso.url}" target="_blank">Acessar</a></td>
             `;
