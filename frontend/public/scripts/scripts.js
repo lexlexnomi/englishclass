@@ -350,7 +350,7 @@ function configurarFormRecurso() {
 
 // Função para preencher as opções do Select2 com categorias
 async function carregarCategorias() {
-    const categorias = await fetchData('/api/categorias');
+    const categorias = await fetchData('/api/recursos/categorias');
 
     const categoriasElement = document.getElementById('categorias');
     if (categoriasElement) {
